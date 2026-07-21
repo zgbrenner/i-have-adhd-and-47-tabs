@@ -1,0 +1,22 @@
+name: Validate skill
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: make check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: i-have-adhd-and-47-tabs
+          path: dist/i-have-adhd-and-47-tabs.zip
