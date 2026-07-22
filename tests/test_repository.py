@@ -34,6 +34,7 @@ class RepositoryContractTests(unittest.TestCase):
             ROOT / "docs" / "DISCUSSION_SEEDS.md",
             ROOT / "docs" / "releases" / "1.1.0.md",
             ROOT / "scripts" / "publish_to_github.sh",
+            ROOT / ".github" / "scripts" / "seed-discussions.js",
             ROOT / ".github" / "workflows" / "release.yml",
             ROOT / ".github" / "workflows" / "seed-discussions.yml",
             ROOT / ".github" / "workflows" / "codeql.yml",
@@ -122,13 +123,16 @@ class RepositoryContractTests(unittest.TestCase):
     def test_issue_and_discussion_forms_are_structured(self) -> None:
         bug = (ROOT / ".github" / "ISSUE_TEMPLATE" / "bug.yml").read_text(encoding="utf-8")
         discussion = (ROOT / ".github" / "DISCUSSION_TEMPLATE" / "q-a.yml").read_text(encoding="utf-8")
-        seed = (ROOT / ".github" / "workflows" / "seed-discussions.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github" / "workflows" / "seed-discussions.yml").read_text(encoding="utf-8")
+        seeder = (ROOT / ".github" / "scripts" / "seed-discussions.js").read_text(encoding="utf-8")
         self.assertIn("type: dropdown", bug)
         self.assertIn("required: true", bug)
         self.assertIn("type: textarea", discussion)
-        self.assertIn("discussions: write", seed)
-        self.assertIn("Welcome to I Have ADHD and 47 Tabs", seed)
-        self.assertIn("Which language should we translate next?", seed)
+        self.assertIn("discussions: write", workflow)
+        self.assertIn("seed-discussions.js", workflow)
+        self.assertIn("Welcome to I Have ADHD and 47 Tabs", seeder)
+        self.assertIn("Which language should we translate next?", seeder)
+        self.assertIn("createDiscussion", seeder)
 
     def test_release_workflow_publishes_versioned_assets(self) -> None:
         text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
