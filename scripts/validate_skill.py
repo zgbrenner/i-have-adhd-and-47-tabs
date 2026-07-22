@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 NAME = "i-have-adhd-and-47-tabs"
 SKILL_DIR = ROOT / NAME
 SKILL = SKILL_DIR / "SKILL.md"
+VERSION_FILE = ROOT / "VERSION"
 
 
 def fail(message: str) -> None:
@@ -25,6 +26,12 @@ def main() -> None:
         fail(f"expected exactly one top-level skill folder named {NAME}; found: {found}")
     if not SKILL.is_file():
         fail(f"missing {SKILL.relative_to(ROOT)}")
+    if not VERSION_FILE.is_file():
+        fail("missing VERSION")
+
+    version = VERSION_FILE.read_text(encoding="utf-8").strip()
+    if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+        fail("VERSION must contain a semantic version such as 1.1.0")
 
     text = SKILL.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
@@ -37,6 +44,7 @@ def main() -> None:
 
     name_match = re.search(r"(?m)^name:\s*(.+?)\s*$", frontmatter)
     description_match = re.search(r"(?m)^description:\s*(.+?)\s*$", frontmatter)
+    version_match = re.search(r'(?m)^\s+version:\s*["\']?([^"\'\s]+)["\']?\s*$', frontmatter)
     if not name_match or name_match.group(1) != NAME:
         fail(f"frontmatter name must be {NAME}")
     if not description_match:
@@ -47,6 +55,9 @@ def main() -> None:
     for required_signal in ("Structures responses", "Use for", "especially when"):
         if required_signal not in description:
             fail(f"frontmatter description must explain behavior and triggers; missing: {required_signal}")
+    if not version_match or version_match.group(1) != version:
+        found = version_match.group(1) if version_match else "missing"
+        fail(f"SKILL.md metadata version must match VERSION ({version}); found: {found}")
     if len(frontmatter) > 2048:
         fail("frontmatter is unexpectedly large")
 
@@ -64,7 +75,7 @@ def main() -> None:
     if required_attribution not in text:
         fail("SKILL.md must retain upstream attribution")
 
-    print(f"OK: {NAME} source package is valid")
+    print(f"OK: {NAME} source package v{version} is valid")
 
 
 if __name__ == "__main__":
