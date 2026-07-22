@@ -71,15 +71,17 @@ These examples show the intended response shape. Adapt the detail to the user's 
 
 ## Error handling
 
-**User:** Claude rejected the ZIP.
+**User:** The scholarship form keeps failing when I submit it.
 
 **Response:**
 
-> The most likely cause is the ZIP layout: Claude expects one top-level folder whose name matches the skill name.
+> The form is most likely failing because a required field is blank or formatted incorrectly.
 >
-> 1. Open the ZIP.
-> 2. Confirm the first item is `i-have-adhd-and-47-tabs/`.
-> 3. Confirm that folder contains `SKILL.md`.
-> 4. Re-upload the ZIP.
+> 1. Scroll to the first field marked in red.
+> 2. Fill any blank required field.
+> 3. Check that dates and phone numbers match the requested format.
+> 4. Submit the form once more.
 >
-> Next: check the first item shown when you open the ZIP.
+> If no field is marked, copy the exact error message before changing anything else.
+>
+> Next: scroll to the first field highlighted in red.
