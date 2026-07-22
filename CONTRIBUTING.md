@@ -11,7 +11,7 @@ You do not need to be a developer to contribute. Clear examples, installation te
 - Describe a case where the skill triggered too often or failed to trigger.
 - Improve accessibility, clarity, or support for different attention styles.
 - Translate the skill and user documentation.
-- Improve validation, packaging, release automation, or security documentation.
+- Improve local validation, packaging, release tooling, or security documentation.
 
 Questions and early ideas belong in [GitHub Discussions](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/discussions). Reproducible bugs and scoped changes belong in [Issues](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/issues).
 
@@ -29,7 +29,7 @@ A maintainer can run packaging and validation for documentation-only contributio
 
 Edit the source files inside `i-have-adhd-and-47-tabs/`.
 
-Do not manually edit `dist/i-have-adhd-and-47-tabs.zip`. The ZIP is generated from the source package by `python3 scripts/build_zip.py`, and CI verifies that the committed ZIP matches the source byte-for-byte.
+Do not manually edit `dist/i-have-adhd-and-47-tabs.zip`. The ZIP is generated from the source package by `python3 scripts/build_zip.py`. Run `make check` locally to rebuild it and verify the repository contract before committing.
 
 Repository-level installation, community, and release documentation lives at the repository root and in `docs/`.
 
@@ -72,11 +72,17 @@ Preserve the behavioral meaning rather than translating every sentence literally
 1. Keep the change focused.
 2. Add or update a test when changing package behavior.
 3. Update documentation when an installation path changes.
-4. Run `make check`.
+4. Run `make check` locally.
 5. Explain the user-visible effect in the pull request.
 6. Confirm that no credentials, personal data, or generated cache files are included.
 
 ## Local checks
+
+```bash
+make check
+```
+
+Or run the individual commands:
 
 ```bash
 python3 scripts/validate_skill.py
@@ -84,6 +90,12 @@ python3 scripts/build_zip.py
 python3 -m unittest discover -s tests -v
 ```
 
-No third-party Python packages are required.
+Optional one-time setup installs a local pre-push hook:
+
+```bash
+make install-hooks
+```
+
+This repository intentionally has no GitHub Actions or hosted CI. Contributors are responsible for running the local checks before submitting changes. No third-party Python packages are required.
 
 By contributing, you agree that your contribution will be licensed under the repository's MIT License.
