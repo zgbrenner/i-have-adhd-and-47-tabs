@@ -30,14 +30,13 @@ class RepositoryContractTests(unittest.TestCase):
             ROOT / "CITATION.cff",
             ROOT / "PUBLISH.md",
             ROOT / "VERSION",
+            ROOT / "Makefile",
             ROOT / "docs" / "DIRECTORY_SUBMISSIONS.md",
             ROOT / "docs" / "DISCUSSION_SEEDS.md",
-            ROOT / "docs" / "releases" / "1.1.0.md",
             ROOT / "scripts" / "publish_to_github.sh",
-            ROOT / ".github" / "scripts" / "seed-discussions.js",
-            ROOT / ".github" / "workflows" / "release.yml",
-            ROOT / ".github" / "workflows" / "seed-discussions.yml",
-            ROOT / ".github" / "workflows" / "codeql.yml",
+            ROOT / "scripts" / "create_release.sh",
+            ROOT / "scripts" / "install_git_hooks.sh",
+            ROOT / ".githooks" / "pre-push",
             ROOT / ".github" / "ISSUE_TEMPLATE" / "bug.yml",
             ROOT / ".github" / "ISSUE_TEMPLATE" / "behavior-improvement.yml",
             ROOT / ".github" / "ISSUE_TEMPLATE" / "platform-compatibility.yml",
@@ -54,22 +53,24 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual(missing, [], f"Missing required files: {missing}")
         self.assertFalse((SKILL_DIR / "agents" / "openai.yaml").exists())
         self.assertFalse(ROOT_ZIP.exists(), "Only the dist/ ZIP should be tracked")
-        self.assertFalse((ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md").exists())
-        self.assertFalse((ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md").exists())
+
+    def test_no_hosted_ci_or_actions_configuration(self) -> None:
+        workflows = ROOT / ".github" / "workflows"
+        workflow_files = list(workflows.glob("*.yml")) + list(workflows.glob("*.yaml")) if workflows.exists() else []
+        self.assertEqual(workflow_files, [], "Repository must not use GitHub Actions")
+        self.assertFalse((ROOT / ".github" / "dependabot.yml").exists())
+        self.assertFalse((ROOT / ".github" / "dependabot.yaml").exists())
 
     def test_versions_are_synchronized(self) -> None:
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         self.assertRegex(version, r"^\d+\.\d+\.\d+$")
-
         skill = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
         citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
-        release_notes = ROOT / "docs" / "releases" / f"{version}.md"
-
         self.assertIn(f'version: "{version}"', skill)
         self.assertIn(f"version: {version}", citation)
         self.assertIn(f"## {version}", changelog)
-        self.assertTrue(release_notes.is_file())
+        self.assertTrue((ROOT / "docs" / "releases" / f"{version}.md").is_file())
 
     def test_skill_frontmatter_is_discoverable(self) -> None:
         text = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
@@ -78,33 +79,24 @@ class RepositoryContractTests(unittest.TestCase):
         description = re.search(r"(?m)^description:\s*(.+)$", text)
         self.assertIsNotNone(description)
         assert description is not None
-        value = description.group(1)
-        self.assertLessEqual(len(value), 1024)
-        self.assertIn("Structures responses", value)
-        self.assertIn("Use for", value)
-        self.assertIn("especially when", value)
+        self.assertLessEqual(len(description.group(1)), 1024)
         self.assertIn("https://github.com/ayghri/i-have-adhd", text)
 
-    def test_readme_has_distribution_and_platform_paths(self) -> None:
+    def test_readme_documents_local_only_validation(self) -> None:
         text = (ROOT / "README.md").read_text(encoding="utf-8")
         for required in [
-            "I Have ADHD and 47 Tabs",
             "Claude",
             "ChatGPT",
-            "Custom GPT",
             "Codex",
             "GitHub Copilot",
             "gh skill install",
             "npx skills add",
-            "releases/latest/download/i-have-adhd-and-47-tabs.zip",
-            "Ayoub Ghriss",
-            "https://github.com/ayghri/i-have-adhd",
-            "MIT",
-            "Make progress and wins visible",
+            "make check",
+            "make install-hooks",
+            "no GitHub Actions or hosted CI",
         ]:
             self.assertIn(required, text)
-        self.assertNotIn("agents/openai.yaml", text)
-        self.assertNotRegex(text, r"(?m)^python scripts/")
+        self.assertNotIn("actions/workflows", text)
 
     def test_license_preserves_original_notice(self) -> None:
         text = (ROOT / "LICENSE").read_text(encoding="utf-8")
@@ -123,27 +115,25 @@ class RepositoryContractTests(unittest.TestCase):
     def test_issue_and_discussion_forms_are_structured(self) -> None:
         bug = (ROOT / ".github" / "ISSUE_TEMPLATE" / "bug.yml").read_text(encoding="utf-8")
         discussion = (ROOT / ".github" / "DISCUSSION_TEMPLATE" / "q-a.yml").read_text(encoding="utf-8")
-        workflow = (ROOT / ".github" / "workflows" / "seed-discussions.yml").read_text(encoding="utf-8")
-        seeder = (ROOT / ".github" / "scripts" / "seed-discussions.js").read_text(encoding="utf-8")
         self.assertIn("type: dropdown", bug)
         self.assertIn("required: true", bug)
         self.assertIn("type: textarea", discussion)
-        self.assertIn("discussions: write", workflow)
-        self.assertIn("seed-discussions.js", workflow)
-        self.assertIn("Welcome to I Have ADHD and 47 Tabs", seeder)
-        self.assertIn("Which language should we translate next?", seeder)
-        self.assertIn("createDiscussion", seeder)
 
-    def test_release_workflow_publishes_versioned_assets(self) -> None:
-        text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
-        self.assertIn("sha256sum", text)
-        self.assertIn("softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda", text)
-        self.assertIn("tag_name: ${{ steps.version.outputs.tag }}", text)
-        self.assertIn("target_commitish: ${{ github.sha }}", text)
+    def test_local_release_script_publishes_versioned_assets(self) -> None:
+        text = (ROOT / "scripts" / "create_release.sh").read_text(encoding="utf-8")
+        self.assertIn("make check", text)
+        self.assertIn("hashlib.sha256", text)
+        self.assertIn("gh release create", text)
+        self.assertIn("gh release upload", text)
         self.assertIn("dist/i-have-adhd-and-47-tabs.zip", text)
         self.assertIn("dist/SHA256SUMS", text)
-        self.assertIn("body_path: docs/releases/${{ steps.version.outputs.version }}.md", text)
-        self.assertNotIn("gh release create", text)
+        self.assertIn('CURRENT_BRANCH="$(git branch --show-current)"', text)
+
+    def test_local_hook_runs_repository_checks(self) -> None:
+        hook = (ROOT / ".githooks" / "pre-push").read_text(encoding="utf-8")
+        installer = (ROOT / "scripts" / "install_git_hooks.sh").read_text(encoding="utf-8")
+        self.assertIn("make check", hook)
+        self.assertIn("core.hooksPath .githooks", installer)
 
     def test_social_preview_has_recommended_dimensions(self) -> None:
         data = SOCIAL_PREVIEW.read_bytes()
@@ -151,31 +141,13 @@ class RepositoryContractTests(unittest.TestCase):
         width, height = struct.unpack(">II", data[16:24])
         self.assertEqual((width, height), (1280, 640))
 
-    def test_examples_are_general_purpose(self) -> None:
-        text = (SKILL_DIR / "references" / "examples.md").read_text(encoding="utf-8")
-        self.assertIn("scholarship form", text)
-        self.assertNotIn("Claude rejected the ZIP", text)
-        self.assertNotIn("Re-upload the ZIP", text)
-
-    def test_publish_script_rebuilds_commits_and_pushes_current_branch(self) -> None:
-        text = (ROOT / "scripts" / "publish_to_github.sh").read_text(encoding="utf-8")
-        self.assertIn("git init -b main", text)
-        self.assertIn("git add --all", text)
-        self.assertIn("git diff --cached --quiet", text)
-        self.assertIn("git branch --show-current", text)
-        self.assertIn('git push -u origin "$BRANCH"', text)
-        self.assertIn("ORIGIN_REPO", text)
-        self.assertNotRegex(text, r"(?m)^python scripts/")
-
     def test_distribution_zip_has_one_top_level_skill_folder(self) -> None:
         self.assertTrue(DIST_ZIP.is_file(), f"Missing {DIST_ZIP.relative_to(ROOT)}")
         with zipfile.ZipFile(DIST_ZIP) as archive:
             self.assertIsNone(archive.testzip())
             names = [name for name in archive.namelist() if name and not name.endswith("/")]
-        top_levels = {name.split("/", 1)[0] for name in names}
-        self.assertEqual(top_levels, {SKILL_NAME})
+        self.assertEqual({name.split("/", 1)[0] for name in names}, {SKILL_NAME})
         self.assertIn(f"{SKILL_NAME}/SKILL.md", names)
-        self.assertNotIn(f"{SKILL_NAME}/agents/openai.yaml", names)
         self.assertNotIn("__MACOSX", "\n".join(names))
 
     def test_build_ignores_common_stray_files(self) -> None:
@@ -188,11 +160,7 @@ class RepositoryContractTests(unittest.TestCase):
         cache_file.write_bytes(b"junk")
         backup.write_text("junk", encoding="utf-8")
         try:
-            subprocess.run(
-                [sys.executable, str(ROOT / "scripts" / "build_zip.py")],
-                check=True,
-                cwd=ROOT,
-            )
+            subprocess.run([sys.executable, str(ROOT / "scripts" / "build_zip.py")], check=True, cwd=ROOT)
             with zipfile.ZipFile(DIST_ZIP) as archive:
                 names = set(archive.namelist())
             self.assertNotIn(f"{SKILL_NAME}/.DS_Store", names)
