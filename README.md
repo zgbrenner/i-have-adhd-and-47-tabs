@@ -9,7 +9,6 @@
 <p align="center">
   <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zgbrenner/i-have-adhd-and-47-tabs?display_name=tag"></a>
   <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip"><img alt="Download skill" src="https://img.shields.io/badge/download-skill.zip-6f42c1.svg"></a>
-  <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/actions/workflows/validate-skill.yml"><img alt="Validation" src="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/actions/workflows/validate-skill.yml/badge.svg"></a>
   <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/zgbrenner/i-have-adhd-and-47-tabs/total?label=downloads"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2ea44f.svg"></a>
 </p>
@@ -42,7 +41,7 @@ It works for **research, studying, writing, planning, email, administrative work
 
 ### Before
 
-> Great question! There are several ways to approach planning your week. You may want to think about your priorities, deadlines, energy levels, meetings, errands, and personal obligations. One strategy is time blocking, while another is using a prioritized task list. You could also consider reviewing your calendar first...
+> Great question! There are several ways to approach planning your week. You may want to think about your priorities, deadlines, energy levels, meetings, errands, and personal obligations. One strategy is time blocking, while another is using a prioritized task list...
 
 </td>
 <td width="50%" valign="top">
@@ -66,12 +65,12 @@ It works for **research, studying, writing, planning, email, administrative work
 
 **[Download the latest ready-to-upload ZIP](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip)**
 
-Every release also includes a `SHA256SUMS` file so you can verify the download. The ZIP contains exactly one top-level folder named `i-have-adhd-and-47-tabs`, with the required `SKILL.md` and supporting files inside it.
+Every release also includes `SHA256SUMS` for download verification. The ZIP contains exactly one top-level folder named `i-have-adhd-and-47-tabs`, with `SKILL.md` and its supporting files inside it.
 
 ## Install in Claude
 
 1. Download the [latest ZIP](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip).
-2. In Claude, enable **Code execution and file creation** under **Settings → Capabilities**.
+2. Enable **Code execution and file creation** under **Settings → Capabilities**.
 3. Open **Customize → Skills**.
 4. Select **+ → Create skill → Upload a skill**.
 5. Upload the ZIP and enable **I Have ADHD and 47 Tabs**.
@@ -80,30 +79,24 @@ Official guide: [Use skills in Claude](https://support.claude.com/en/articles/12
 
 ## Install in ChatGPT Skills
 
-Personal Skills are generally available for ChatGPT Business, Enterprise, Healthcare, and Edu. Availability and workspace permissions can vary.
-
 1. Download the [latest ZIP](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip).
 2. Open **Plugins** in the ChatGPT sidebar.
 3. Select **Skills → Create → Upload from your computer**.
 4. Upload the ZIP.
 
-OpenAI Skills follow the Agent Skills open standard, so the same package can be used across supported products.
-
 Official guide: [Skills in ChatGPT](https://help.openai.com/en/articles/20001066).
 
 ## Install in Codex
-
-In Codex, ask the built-in skill installer to install the skill from this repository:
 
 ```text
 $skill-installer install https://github.com/zgbrenner/i-have-adhd-and-47-tabs/tree/main/i-have-adhd-and-47-tabs
 ```
 
-Restart Codex after installation so it discovers the new skill.
+Restart Codex after installation.
 
 ## Install for GitHub Copilot
 
-Agent Skills work with Copilot cloud agent, Copilot CLI, code review, the Copilot app, and agent mode in supported IDEs. GitHub CLI 2.90.0 or later can preview and install this skill:
+GitHub CLI 2.90.0 or later can preview and install this skill:
 
 ```bash
 gh skill preview zgbrenner/i-have-adhd-and-47-tabs i-have-adhd-and-47-tabs
@@ -116,38 +109,23 @@ Official guide: [Adding agent skills for GitHub Copilot](https://docs.github.com
 
 ## Install with the universal Skills CLI
 
-The open-source Skills CLI can discover the skill in this repository and install it for a supported agent:
-
 ```bash
 npx skills add zgbrenner/i-have-adhd-and-47-tabs
 ```
 
 ## ChatGPT Plus / Custom GPT fallback
 
-When native Personal Skills are not available on your plan, create a Custom GPT:
-
 1. Open **Explore GPTs → Create → Configure**.
 2. Name it **I Have ADHD and 47 Tabs**.
 3. Copy [`chatgpt-custom-gpt/INSTRUCTIONS.md`](chatgpt-custom-gpt/INSTRUCTIONS.md) into the GPT’s **Instructions** field.
-4. Add the suggested conversation starters from that file.
+4. Add the included conversation starters.
 5. Test it in Preview, then save or publish it.
-
-Behavior belongs in the GPT’s Instructions field, not in Knowledge files. Official guide: [Creating and editing GPTs](https://help.openai.com/en/articles/8554397-use-advanced-data-analysis-in-chatgpt).
 
 ## What is different from the original?
 
-This project is a browser-first, general-purpose adaptation of **[Ayoub Ghriss’s original `i-have-adhd`](https://github.com/ayghri/i-have-adhd)** skill.
+This is a browser-first, general-purpose adaptation of **[Ayoub Ghriss’s original `i-have-adhd`](https://github.com/ayghri/i-have-adhd)** skill. It keeps the original ten-rule structure while broadening the examples and behavior for everyday questions, research, school, writing, planning, administrative work, and technical tasks.
 
-The original is optimized for coding agents. This adaptation keeps the core idea and ten-rule structure, then broadens the examples and behavior for:
-
-- everyday questions and decisions;
-- research and knowledge work;
-- school and studying;
-- writing, email, and administrative work;
-- planning, errands, and personal logistics;
-- technical work when needed.
-
-The most important adaptation is subtle: factual questions lead with the **answer**, while tasks lead with the **next action**.
+The key adaptation is simple: factual questions lead with the **answer**, while tasks lead with the **next action**.
 
 ## The rules
 
@@ -168,51 +146,47 @@ The full instructions live in [`i-have-adhd-and-47-tabs/SKILL.md`](i-have-adhd-a
 
 - Ask installation and usage questions in [Discussions](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/discussions).
 - Report reproducible bugs through the [issue forms](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/issues/new/choose).
-- Read [`SUPPORT.md`](SUPPORT.md) to find the right help channel.
+- Read [`SUPPORT.md`](SUPPORT.md) for the correct help channel.
 - Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before proposing changes.
+
+## Zero-cost local validation
+
+This repository intentionally uses **no GitHub Actions or hosted CI**. Validation and releases run locally so maintaining the project does not consume GitHub Actions minutes.
+
+```bash
+make check
+```
+
+Optional one-time setup installs a local pre-push hook that runs the same checks before every push on your computer:
+
+```bash
+make install-hooks
+```
+
+No third-party Python packages are required.
 
 ## Repository map
 
 ```text
 i-have-adhd-and-47-tabs/
 ├── i-have-adhd-and-47-tabs/      # Uploadable skill source
-│   ├── SKILL.md
-│   ├── README.md
-│   ├── LICENSE
-│   ├── NOTICE.md
-│   └── references/examples.md
 ├── assets/                       # Social and launch artwork
-├── chatgpt-custom-gpt/           # Fallback for Custom GPT users
+├── chatgpt-custom-gpt/           # Custom GPT fallback
 ├── dist/                         # Reproducible release ZIP
 ├── docs/                         # Installation, release, and community notes
-├── scripts/                      # Validation and packaging
+├── scripts/                      # Local validation, packaging, and publishing
 ├── tests/                        # Package contract tests
-└── .github/                      # CI, release, issue, and discussion automation
-```
-
-## Build and validate
-
-No third-party packages are required.
-
-```bash
-python3 scripts/validate_skill.py
-python3 scripts/build_zip.py
-python3 -m unittest discover -s tests -v
-```
-
-Or use:
-
-```bash
-make check
+├── .githooks/                    # Optional local pre-push checks
+└── .github/                      # Issue and discussion templates only
 ```
 
 ## Attribution
 
-**Original concept and skill:** [Ayoub Ghriss — `ayghri/i-have-adhd`](https://github.com/ayghri/i-have-adhd)
+**Original concept and skill:** [Ayoub Ghriss - `ayghri/i-have-adhd`](https://github.com/ayghri/i-have-adhd)
 
 **Browser/general-purpose adaptation:** [Zachary Brenner](https://github.com/zgbrenner)
 
-The original copyright notice is preserved in [`LICENSE`](LICENSE) and the adaptation history is documented in [`NOTICE.md`](NOTICE.md).
+The original copyright notice is preserved in [`LICENSE`](LICENSE), and the adaptation history is documented in [`NOTICE.md`](NOTICE.md).
 
 ## License
 
