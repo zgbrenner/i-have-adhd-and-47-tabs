@@ -1,0 +1,57 @@
+name: Behavior improvement
+description: Suggest a clearer rule, trigger, example, or response pattern
+title: "[Behavior]: "
+labels:
+  - enhancement
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: What should improve?
+      options:
+        - Skill triggering
+        - Answer-first behavior
+        - Numbered steps
+        - Next-step behavior
+        - Tangent suppression
+        - Multi-turn state
+        - Error handling
+        - Accessibility or clarity
+        - Example coverage
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the current behavior and why it is difficult to use.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Before and after example
+      description: Remove private or identifying information.
+      placeholder: |
+        Before:
+        ...
+
+        Better:
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Accuracy or accessibility tradeoffs
+      description: Could this change remove needed nuance, over-trigger, or make another use case worse?
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched for an existing request.
+          required: true
+        - label: This suggestion does not make medical or diagnostic claims.
+          required: true

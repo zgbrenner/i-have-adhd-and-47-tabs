@@ -1,0 +1,26 @@
+title: "[Help] "
+body:
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Claude
+        - ChatGPT
+        - Custom GPT
+        - Codex
+        - GitHub Copilot
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you trying to do?
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried?
+      description: Remove private conversations, credentials, and sensitive documents.

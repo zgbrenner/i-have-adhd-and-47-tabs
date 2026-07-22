@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import struct
 import subprocess
 import sys
 import unittest
@@ -12,6 +13,7 @@ SKILL_NAME = "i-have-adhd-and-47-tabs"
 SKILL_DIR = ROOT / SKILL_NAME
 DIST_ZIP = ROOT / "dist" / f"{SKILL_NAME}.zip"
 ROOT_ZIP = ROOT / f"{SKILL_NAME}.zip"
+SOCIAL_PREVIEW = ROOT / "assets" / "social-preview.png"
 
 
 class RepositoryContractTests(unittest.TestCase):
@@ -21,10 +23,28 @@ class RepositoryContractTests(unittest.TestCase):
             ROOT / "LICENSE",
             ROOT / "NOTICE.md",
             ROOT / "CONTRIBUTING.md",
+            ROOT / "CODE_OF_CONDUCT.md",
             ROOT / "SECURITY.md",
+            ROOT / "SUPPORT.md",
             ROOT / "CHANGELOG.md",
+            ROOT / "CITATION.cff",
             ROOT / "PUBLISH.md",
+            ROOT / "VERSION",
+            ROOT / "docs" / "DIRECTORY_SUBMISSIONS.md",
+            ROOT / "docs" / "DISCUSSION_SEEDS.md",
+            ROOT / "docs" / "releases" / "1.1.0.md",
             ROOT / "scripts" / "publish_to_github.sh",
+            ROOT / ".github" / "workflows" / "release.yml",
+            ROOT / ".github" / "workflows" / "seed-discussions.yml",
+            ROOT / ".github" / "workflows" / "codeql.yml",
+            ROOT / ".github" / "ISSUE_TEMPLATE" / "bug.yml",
+            ROOT / ".github" / "ISSUE_TEMPLATE" / "behavior-improvement.yml",
+            ROOT / ".github" / "ISSUE_TEMPLATE" / "platform-compatibility.yml",
+            ROOT / ".github" / "ISSUE_TEMPLATE" / "config.yml",
+            ROOT / ".github" / "DISCUSSION_TEMPLATE" / "ideas.yml",
+            ROOT / ".github" / "DISCUSSION_TEMPLATE" / "q-a.yml",
+            ROOT / ".github" / "DISCUSSION_TEMPLATE" / "show-and-tell.yml",
+            SOCIAL_PREVIEW,
             SKILL_DIR / "SKILL.md",
             SKILL_DIR / "README.md",
             SKILL_DIR / "references" / "examples.md",
@@ -33,6 +53,22 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual(missing, [], f"Missing required files: {missing}")
         self.assertFalse((SKILL_DIR / "agents" / "openai.yaml").exists())
         self.assertFalse(ROOT_ZIP.exists(), "Only the dist/ ZIP should be tracked")
+        self.assertFalse((ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md").exists())
+        self.assertFalse((ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md").exists())
+
+    def test_versions_are_synchronized(self) -> None:
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.assertRegex(version, r"^\d+\.\d+\.\d+$")
+
+        skill = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
+        citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        release_notes = ROOT / "docs" / "releases" / f"{version}.md"
+
+        self.assertIn(f'version: "{version}"', skill)
+        self.assertIn(f"version: {version}", citation)
+        self.assertIn(f"## {version}", changelog)
+        self.assertTrue(release_notes.is_file())
 
     def test_skill_frontmatter_is_discoverable(self) -> None:
         text = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
@@ -48,13 +84,18 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("especially when", value)
         self.assertIn("https://github.com/ayghri/i-have-adhd", text)
 
-    def test_readme_has_installation_and_upstream_credit(self) -> None:
+    def test_readme_has_distribution_and_platform_paths(self) -> None:
         text = (ROOT / "README.md").read_text(encoding="utf-8")
         for required in [
             "I Have ADHD and 47 Tabs",
             "Claude",
             "ChatGPT",
             "Custom GPT",
+            "Codex",
+            "GitHub Copilot",
+            "gh skill install",
+            "npx skills add",
+            "releases/latest/download/i-have-adhd-and-47-tabs.zip",
             "Ayoub Ghriss",
             "https://github.com/ayghri/i-have-adhd",
             "MIT",
@@ -69,6 +110,39 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("Copyright (c) 2026 Ayoub Ghriss", text)
         self.assertIn("Copyright (c) 2026 Zachary Brenner", text)
         self.assertIn("MIT License", text)
+
+    def test_security_and_support_routes_are_explicit(self) -> None:
+        security = (ROOT / "SECURITY.md").read_text(encoding="utf-8")
+        support = (ROOT / "SUPPORT.md").read_text(encoding="utf-8")
+        self.assertIn("security/advisories/new", security)
+        self.assertIn("Private vulnerability reporting", security)
+        self.assertIn("Discussions", support)
+        self.assertIn("medical", support.lower())
+
+    def test_issue_and_discussion_forms_are_structured(self) -> None:
+        bug = (ROOT / ".github" / "ISSUE_TEMPLATE" / "bug.yml").read_text(encoding="utf-8")
+        discussion = (ROOT / ".github" / "DISCUSSION_TEMPLATE" / "q-a.yml").read_text(encoding="utf-8")
+        seed = (ROOT / ".github" / "workflows" / "seed-discussions.yml").read_text(encoding="utf-8")
+        self.assertIn("type: dropdown", bug)
+        self.assertIn("required: true", bug)
+        self.assertIn("type: textarea", discussion)
+        self.assertIn("discussions: write", seed)
+        self.assertIn("Welcome to I Have ADHD and 47 Tabs", seed)
+        self.assertIn("Which language should we translate next?", seed)
+
+    def test_release_workflow_publishes_versioned_assets(self) -> None:
+        text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+        self.assertIn("sha256sum", text)
+        self.assertIn("gh release create", text)
+        self.assertIn("dist/i-have-adhd-and-47-tabs.zip", text)
+        self.assertIn("dist/SHA256SUMS", text)
+        self.assertIn('docs/releases/$VERSION.md', text)
+
+    def test_social_preview_has_recommended_dimensions(self) -> None:
+        data = SOCIAL_PREVIEW.read_bytes()
+        self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
+        width, height = struct.unpack(">II", data[16:24])
+        self.assertEqual((width, height), (1280, 640))
 
     def test_examples_are_general_purpose(self) -> None:
         text = (SKILL_DIR / "references" / "examples.md").read_text(encoding="utf-8")

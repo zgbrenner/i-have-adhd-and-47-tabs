@@ -15,7 +15,7 @@ Material changes include:
 1. A new name and browser/everyday-work identity.
 2. General-purpose examples instead of primarily coding examples.
 3. “Lead with the answer or next action” behavior for both factual questions and tasks.
-4. Claude custom-skill, ChatGPT Skill, and Custom GPT installation paths.
-5. Reproducible packaging, validation, tests, and open-source project documentation.
+4. Claude, ChatGPT, Codex, GitHub Copilot, and Custom GPT installation paths.
+5. Reproducible packaging, releases, validation, tests, and open-source project documentation.
 
 Both the upstream work and this adaptation are distributed under the MIT License. The upstream copyright notice is preserved in `LICENSE`.

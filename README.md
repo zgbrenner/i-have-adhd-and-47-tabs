@@ -7,11 +7,11 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zgbrenner/i-have-adhd-and-47-tabs?display_name=tag"></a>
+  <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip"><img alt="Download skill" src="https://img.shields.io/badge/download-skill.zip-6f42c1.svg"></a>
+  <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/actions/workflows/validate-skill.yml"><img alt="Validation" src="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/actions/workflows/validate-skill.yml/badge.svg"></a>
+  <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/zgbrenner/i-have-adhd-and-47-tabs/total?label=downloads"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2ea44f.svg"></a>
-  <a href="dist/i-have-adhd-and-47-tabs.zip"><img alt="Download Skill" src="https://img.shields.io/badge/download-skill.zip-6f42c1.svg"></a>
-  <img alt="Claude compatible" src="https://img.shields.io/badge/Claude-custom%20skill-D97757.svg">
-  <img alt="ChatGPT compatible" src="https://img.shields.io/badge/ChatGPT-skill%20%2B%20GPT-10A37F.svg">
-  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-none-blue.svg">
 </p>
 
 <p align="center">
@@ -64,15 +64,13 @@ It works for **research, studying, writing, planning, email, administrative work
 
 ## Download
 
-**[Download the ready-to-upload ZIP](dist/i-have-adhd-and-47-tabs.zip)**
+**[Download the latest ready-to-upload ZIP](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip)**
 
-The ZIP contains exactly one top-level folder named `i-have-adhd-and-47-tabs`, with the required `SKILL.md` and supporting files inside it.
+Every release also includes a `SHA256SUMS` file so you can verify the download. The ZIP contains exactly one top-level folder named `i-have-adhd-and-47-tabs`, with the required `SKILL.md` and supporting files inside it.
 
 ## Install in Claude
 
-Claude custom skills are available on Free, Pro, Max, Team, and Enterprise plans when code execution is enabled.
-
-1. Download [`dist/i-have-adhd-and-47-tabs.zip`](dist/i-have-adhd-and-47-tabs.zip).
+1. Download the [latest ZIP](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip).
 2. In Claude, enable **Code execution and file creation** under **Settings → Capabilities**.
 3. Open **Customize → Skills**.
 4. Select **+ → Create skill → Upload a skill**.
@@ -84,7 +82,7 @@ Official guide: [Use skills in Claude](https://support.claude.com/en/articles/12
 
 Personal Skills are generally available for ChatGPT Business, Enterprise, Healthcare, and Edu. Availability and workspace permissions can vary.
 
-1. Download [`dist/i-have-adhd-and-47-tabs.zip`](dist/i-have-adhd-and-47-tabs.zip).
+1. Download the [latest ZIP](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip).
 2. Open **Plugins** in the ChatGPT sidebar.
 3. Select **Skills → Create → Upload from your computer**.
 4. Upload the ZIP.
@@ -92,6 +90,37 @@ Personal Skills are generally available for ChatGPT Business, Enterprise, Health
 OpenAI Skills follow the Agent Skills open standard, so the same package can be used across supported products.
 
 Official guide: [Skills in ChatGPT](https://help.openai.com/en/articles/20001066).
+
+## Install in Codex
+
+In Codex, ask the built-in skill installer to install the skill from this repository:
+
+```text
+$skill-installer install https://github.com/zgbrenner/i-have-adhd-and-47-tabs/tree/main/i-have-adhd-and-47-tabs
+```
+
+Restart Codex after installation so it discovers the new skill.
+
+## Install for GitHub Copilot
+
+Agent Skills work with Copilot cloud agent, Copilot CLI, code review, the Copilot app, and agent mode in supported IDEs. GitHub CLI 2.90.0 or later can preview and install this skill:
+
+```bash
+gh skill preview zgbrenner/i-have-adhd-and-47-tabs i-have-adhd-and-47-tabs
+gh skill install zgbrenner/i-have-adhd-and-47-tabs i-have-adhd-and-47-tabs --scope user
+```
+
+Omit `--scope user` to install it only for the current project.
+
+Official guide: [Adding agent skills for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills).
+
+## Install with the universal Skills CLI
+
+The open-source Skills CLI can discover the skill in this repository and install it for a supported agent:
+
+```bash
+npx skills add zgbrenner/i-have-adhd-and-47-tabs
+```
 
 ## ChatGPT Plus / Custom GPT fallback
 
@@ -103,7 +132,7 @@ When native Personal Skills are not available on your plan, create a Custom GPT:
 4. Add the suggested conversation starters from that file.
 5. Test it in Preview, then save or publish it.
 
-Behavior belongs in the GPT’s Instructions field—not in Knowledge files. Official guide: [Creating and editing GPTs](https://help.openai.com/en/articles/8554397-use-advanced-data-analysis-in-chatgpt).
+Behavior belongs in the GPT’s Instructions field, not in Knowledge files. Official guide: [Creating and editing GPTs](https://help.openai.com/en/articles/8554397-use-advanced-data-analysis-in-chatgpt).
 
 ## What is different from the original?
 
@@ -135,6 +164,13 @@ The most important adaptation is subtle: factual questions lead with the **answe
 
 The full instructions live in [`i-have-adhd-and-47-tabs/SKILL.md`](i-have-adhd-and-47-tabs/SKILL.md).
 
+## Community
+
+- Ask installation and usage questions in [Discussions](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/discussions).
+- Report reproducible bugs through the [issue forms](https://github.com/zgbrenner/i-have-adhd-and-47-tabs/issues/new/choose).
+- Read [`SUPPORT.md`](SUPPORT.md) to find the right help channel.
+- Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before proposing changes.
+
 ## Repository map
 
 ```text
@@ -145,12 +181,13 @@ i-have-adhd-and-47-tabs/
 │   ├── LICENSE
 │   ├── NOTICE.md
 │   └── references/examples.md
+├── assets/                       # Social and launch artwork
 ├── chatgpt-custom-gpt/           # Fallback for Custom GPT users
-├── dist/                         # Ready-to-upload ZIP
-├── docs/                         # Installation and design notes
-├── scripts/                      # Validation and reproducible packaging
+├── dist/                         # Reproducible release ZIP
+├── docs/                         # Installation, release, and community notes
+├── scripts/                      # Validation and packaging
 ├── tests/                        # Package contract tests
-└── .github/                      # CI and contribution templates
+└── .github/                      # CI, release, issue, and discussion automation
 ```
 
 ## Build and validate
@@ -168,10 +205,6 @@ Or use:
 ```bash
 make check
 ```
-
-## Contributing
-
-Small, concrete improvements are welcome—especially better examples, clearer trigger wording, and verified installation notes. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request.
 
 ## Attribution
 
