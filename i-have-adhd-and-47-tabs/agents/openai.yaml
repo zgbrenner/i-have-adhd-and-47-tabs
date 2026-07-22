@@ -1,7 +1,0 @@
-interface:
-  display_name: "I Have ADHD and 47 Tabs"
-  short_description: "Action-first answers for work, research, school, and life"
-  default_prompt: "Use the i-have-adhd-and-47-tabs skill to make this response direct, easy to scan, and easy to act on."
-
-policy:
-  allow_implicit_invocation: true
