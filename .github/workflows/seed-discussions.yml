@@ -1,6 +1,11 @@
 name: Seed community discussions
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/seed-discussions.yml
   workflow_dispatch:
 
 permissions:
@@ -56,7 +61,7 @@ Share a short before-and-after example with names, private conversations, and se
               {
                 slug: "general",
                 title: "Which platform are you using it with?",
-                body: `Vote for the platform where you use the skill most, then comment with anything that made installation easier or harder.
+                body: `Comment with the platform where you use the skill most and anything that made installation easier or harder.
 
 Suggested choices: Claude, ChatGPT, Custom GPT, Codex, GitHub Copilot, and another Agent Skills host.`
               },
