@@ -1,12 +1,12 @@
 .PHONY: validate package test check
 
 validate:
-	python scripts/validate_skill.py
+	python3 scripts/validate_skill.py
 
 package: validate
-	python scripts/build_zip.py
+	python3 scripts/build_zip.py
 
 test: package
-	python -m unittest discover -s tests -v
+	python3 -m unittest discover -s tests -v
 
 check: test
