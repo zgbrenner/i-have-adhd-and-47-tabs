@@ -1,0 +1,26 @@
+title: "[Show and tell] "
+body:
+  - type: textarea
+    id: usecase
+    attributes:
+      label: What did you use the skill for?
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What changed?
+      description: Share a before-and-after example with private details removed.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Claude
+        - ChatGPT
+        - Custom GPT
+        - Codex
+        - GitHub Copilot
+        - Other

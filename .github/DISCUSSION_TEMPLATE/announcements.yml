@@ -1,0 +1,12 @@
+title: "[Announcement] "
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: true
+  - type: textarea
+    id: action
+    attributes:
+      label: What should readers do?

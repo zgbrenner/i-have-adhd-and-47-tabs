@@ -1,0 +1,53 @@
+name: Platform compatibility report
+description: Report a verified installation or behavior change in a supported platform
+title: "[Platform]: "
+body:
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Claude
+        - ChatGPT
+        - Codex
+        - GitHub Copilot
+        - Universal Skills CLI
+        - Other Agent Skills host
+    validations:
+      required: true
+  - type: input
+    id: observed
+    attributes:
+      label: Date observed
+      placeholder: "2026-07-22"
+    validations:
+      required: true
+  - type: input
+    id: plan
+    attributes:
+      label: Plan, workspace type, or product version
+      placeholder: "ChatGPT Business on web"
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Installation instructions still work
+        - Installation instructions changed
+        - Feature is unavailable on this plan or surface
+        - Skill installs but behaves unexpectedly
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Verified steps and evidence
+      description: Link official documentation when possible. Do not include private workspace information.
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Recommended documentation change

@@ -1,0 +1,76 @@
+name: Bug or installation problem
+description: Report a reproducible installation, packaging, download, or behavior problem
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the project. Do not include credentials, private conversations, or sensitive documents.
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did this happen?
+      options:
+        - Claude custom skill
+        - ChatGPT Skill
+        - Custom GPT
+        - Codex
+        - GitHub Copilot
+        - Download or release asset
+        - Local validation or packaging
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Skill version
+      description: Use the release tag or the version shown in SKILL.md.
+      placeholder: "1.1.0"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Platform, plan, and environment
+      placeholder: "ChatGPT Business, Chrome on Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened?
+      description: Include the exact error message when one exists.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Give the smallest sequence that reproduces the problem.
+      placeholder: |
+        1. Downloaded release v1.1.0
+        2. Opened ...
+        3. Uploaded ...
+        4. Saw ...
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and discussions.
+          required: true
+        - label: I removed credentials, private conversations, and personal information.
+          required: true
+        - label: This is not a security vulnerability. Security reports use private vulnerability reporting.
+          required: true
