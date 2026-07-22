@@ -35,11 +35,11 @@ def main() -> None:
         OUTPUT.unlink()
 
     files = sorted(path for path in SOURCE.rglob("*") if should_include(path))
-    with zipfile.ZipFile(OUTPUT, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+    with zipfile.ZipFile(OUTPUT, "w", compression=zipfile.ZIP_STORED) as archive:
         for path in files:
             relative = PurePosixPath(NAME) / PurePosixPath(path.relative_to(SOURCE).as_posix())
             info = zipfile.ZipInfo(str(relative), FIXED_TIME)
-            info.compress_type = zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.external_attr = 0o644 << 16
             archive.writestr(info, path.read_bytes())
 
