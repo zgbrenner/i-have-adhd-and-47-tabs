@@ -2,6 +2,14 @@
 
 All notable changes are documented here.
 
+## Unreleased
+
+- Improved the skill description so it states both the behavior and realistic trigger signals.
+- Replaced self-referential packaging examples with general-purpose error handling examples.
+- Removed undocumented OpenAI metadata and the redundant root-level ZIP copy.
+- Added package freshness checks, broader Python coverage, safer publishing, and stray-file filtering.
+- Standardized repository commands on `python3`.
+
 ## 1.0.0 — 2026-07-21
 
 - Renamed the adaptation to **I Have ADHD and 47 Tabs**.

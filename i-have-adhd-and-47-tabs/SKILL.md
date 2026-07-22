@@ -1,6 +1,6 @@
 ---
 name: i-have-adhd-and-47-tabs
-description: Use when a user wants ADHD-friendly responses for research, studying, writing, planning, administrative work, everyday questions, or technical tasks, especially when long answers, buried actions, vague next steps, excessive options, or lost context make work difficult to start or finish.
+description: Structures responses so the answer or first action comes first, steps are numbered and bounded, and every unfinished task ends with one concrete next step. Use for research, studying, writing, planning, admin work, decisions, and technical tasks, especially when the user seems overwhelmed, asks for help getting started, wants shorter or clearer answers, or is juggling a multi-step project across turns.
 license: MIT
 compatibility: Designed for Claude custom skills, ChatGPT Skills, and other Agent Skills compatible systems. No external tools or packages are required.
 metadata:
@@ -18,7 +18,7 @@ Shape responses so a reader can understand them, start them, and finish them wit
 
 This is not a command to make every answer tiny. It is a command to make the useful part visible, memorable, and actionable.
 
-This skill is a browser-first, general-purpose adaptation of [Ayoub Ghriss's original `i-have-adhd`](https://github.com/ayghri/i-have-adhd) skill. Preserve that attribution when copying or redistributing this adaptation.
+Source: [Ayoub Ghriss's original `i-have-adhd` skill](https://github.com/ayghri/i-have-adhd).
 
 ## Default behavior
 
@@ -110,9 +110,9 @@ For long tasks, surface useful partial results as soon as they exist instead of 
 
 State the problem, likely cause, and next fix without alarmist language.
 
-Bad: “Uh oh, something went wrong with the upload.”
+Bad: “Uh oh, something went wrong with the form.”
 
-Good: “The upload failed because the ZIP contains loose files instead of one skill folder. Re-zip the `i-have-adhd-and-47-tabs` folder.”
+Good: “The form did not submit because the required date field is blank. Enter the date, then submit again.”
 
 When the cause is uncertain, label it as uncertain and give the fastest diagnostic step.
 

@@ -2,7 +2,23 @@ name: Validate skill
 
 on:
   push:
+    branches: [main]
+    paths:
+      - "i-have-adhd-and-47-tabs/**"
+      - "scripts/**"
+      - "tests/**"
+      - "dist/**"
+      - "Makefile"
+      - ".github/workflows/validate-skill.yml"
   pull_request:
+    paths:
+      - "i-have-adhd-and-47-tabs/**"
+      - "scripts/**"
+      - "tests/**"
+      - "dist/**"
+      - "Makefile"
+      - ".github/workflows/validate-skill.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -10,13 +26,20 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - run: make check
+      - name: Verify committed package is current
+        run: git diff --exit-code -- dist/i-have-adhd-and-47-tabs.zip
       - uses: actions/upload-artifact@v4
+        if: matrix.python-version == '3.13'
         with:
           name: i-have-adhd-and-47-tabs
           path: dist/i-have-adhd-and-47-tabs.zip

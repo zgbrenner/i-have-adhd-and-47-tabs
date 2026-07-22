@@ -21,9 +21,9 @@ Contributions should make the skill easier to trigger, easier to follow, or easi
 ## Local checks
 
 ```bash
-python scripts/validate_skill.py
-python scripts/build_zip.py
-python -m unittest discover -s tests -v
+python3 scripts/validate_skill.py
+python3 scripts/build_zip.py
+python3 -m unittest discover -s tests -v
 ```
 
 No third-party dependencies are required.

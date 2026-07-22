@@ -17,8 +17,12 @@ def fail(message: str) -> None:
 
 
 def main() -> None:
-    if SKILL_DIR.name != NAME:
-        fail("skill folder name does not match expected name")
+    skill_dirs = sorted(
+        path for path in ROOT.iterdir() if path.is_dir() and (path / "SKILL.md").is_file()
+    )
+    if skill_dirs != [SKILL_DIR]:
+        found = ", ".join(str(path.relative_to(ROOT)) for path in skill_dirs) or "none"
+        fail(f"expected exactly one top-level skill folder named {NAME}; found: {found}")
     if not SKILL.is_file():
         fail(f"missing {SKILL.relative_to(ROOT)}")
 
@@ -37,16 +41,20 @@ def main() -> None:
         fail(f"frontmatter name must be {NAME}")
     if not description_match:
         fail("frontmatter description is required")
-    if not description_match.group(1).startswith("Use when"):
-        fail("description must start with 'Use when'")
+    description = description_match.group(1).strip()
+    if len(description) > 1024:
+        fail("frontmatter description must be 1024 characters or fewer")
+    for required_signal in ("Structures responses", "Use for", "especially when"):
+        if required_signal not in description:
+            fail(f"frontmatter description must explain behavior and triggers; missing: {required_signal}")
     if len(frontmatter) > 2048:
         fail("frontmatter is unexpectedly large")
 
     required_files = [
-        SKILL_DIR / "agents" / "openai.yaml",
         SKILL_DIR / "references" / "examples.md",
         SKILL_DIR / "LICENSE",
         SKILL_DIR / "NOTICE.md",
+        SKILL_DIR / "README.md",
     ]
     missing = [str(path.relative_to(ROOT)) for path in required_files if not path.is_file()]
     if missing:

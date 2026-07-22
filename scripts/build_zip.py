@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import shutil
 import zipfile
 from pathlib import Path, PurePosixPath
 
@@ -11,6 +10,20 @@ SOURCE = ROOT / NAME
 DIST = ROOT / "dist"
 OUTPUT = DIST / f"{NAME}.zip"
 FIXED_TIME = (2026, 7, 21, 0, 0, 0)
+EXCLUDED_DIRS = {".git", "__pycache__"}
+EXCLUDED_NAMES = {".DS_Store"}
+EXCLUDED_SUFFIXES = {".pyc", ".pyo"}
+
+
+def should_include(path: Path) -> bool:
+    relative = path.relative_to(SOURCE)
+    if any(part in EXCLUDED_DIRS for part in relative.parts):
+        return False
+    if path.name in EXCLUDED_NAMES or path.suffix in EXCLUDED_SUFFIXES:
+        return False
+    if path.name.endswith("~"):
+        return False
+    return path.is_file()
 
 
 def main() -> None:
@@ -21,16 +34,15 @@ def main() -> None:
     if OUTPUT.exists():
         OUTPUT.unlink()
 
-    files = sorted(path for path in SOURCE.rglob("*") if path.is_file())
-    with zipfile.ZipFile(OUTPUT, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+    files = sorted(path for path in SOURCE.rglob("*") if should_include(path))
+    with zipfile.ZipFile(OUTPUT, "w", compression=zipfile.ZIP_STORED) as archive:
         for path in files:
             relative = PurePosixPath(NAME) / PurePosixPath(path.relative_to(SOURCE).as_posix())
             info = zipfile.ZipInfo(str(relative), FIXED_TIME)
-            info.compress_type = zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.external_attr = 0o644 << 16
             archive.writestr(info, path.read_bytes())
 
-    shutil.copy2(OUTPUT, ROOT / f"{NAME}.zip")
     print(f"Built {OUTPUT.relative_to(ROOT)}")
 
 
