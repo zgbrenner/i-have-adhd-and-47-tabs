@@ -6,3 +6,5 @@ cd "$ROOT"
 
 printf 'Running local repository checks before push...\n'
 make check
+
+git diff --exit-code -- dist/i-have-adhd-and-47-tabs.zip
