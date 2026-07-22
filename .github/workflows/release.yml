@@ -17,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -42,40 +40,15 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "tag=v$version" >> "$GITHUB_OUTPUT"
 
-      - name: Publish tag and GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TAG: ${{ steps.version.outputs.tag }}
-          VERSION: ${{ steps.version.outputs.version }}
-        shell: bash
-        run: |
-          release_state="$(gh release view "$TAG" --json isDraft --jq '.isDraft' 2>/dev/null || echo absent)"
-
-          if [[ "$release_state" == "true" ]]; then
-            echo "Replacing existing draft release $TAG."
-            gh release delete "$TAG" --yes --cleanup-tag
-          fi
-
-          if ! git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -a "$TAG" -m "I Have ADHD and 47 Tabs $VERSION"
-            git push origin "$TAG"
-          fi
-
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" \
-              dist/i-have-adhd-and-47-tabs.zip \
-              dist/SHA256SUMS \
-              --clobber
-            gh release edit "$TAG" \
-              --title "I Have ADHD and 47 Tabs $TAG" \
-              --notes-file "docs/releases/$VERSION.md"
-          else
-            gh release create "$TAG" \
-              dist/i-have-adhd-and-47-tabs.zip \
-              dist/SHA256SUMS \
-              --verify-tag \
-              --title "I Have ADHD and 47 Tabs $TAG" \
-              --notes-file "docs/releases/$VERSION.md"
-          fi
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: I Have ADHD and 47 Tabs ${{ steps.version.outputs.tag }}
+          body_path: docs/releases/${{ steps.version.outputs.version }}.md
+          make_latest: "true"
+          fail_on_unmatched_files: true
+          files: |
+            dist/i-have-adhd-and-47-tabs.zip
+            dist/SHA256SUMS

@@ -133,10 +133,13 @@ class RepositoryContractTests(unittest.TestCase):
     def test_release_workflow_publishes_versioned_assets(self) -> None:
         text = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
         self.assertIn("sha256sum", text)
-        self.assertIn("gh release create", text)
+        self.assertIn("softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda", text)
+        self.assertIn("tag_name: ${{ steps.version.outputs.tag }}", text)
+        self.assertIn("target_commitish: ${{ github.sha }}", text)
         self.assertIn("dist/i-have-adhd-and-47-tabs.zip", text)
         self.assertIn("dist/SHA256SUMS", text)
-        self.assertIn('docs/releases/$VERSION.md', text)
+        self.assertIn("body_path: docs/releases/${{ steps.version.outputs.version }}.md", text)
+        self.assertNotIn("gh release create", text)
 
     def test_social_preview_has_recommended_dimensions(self) -> None:
         data = SOCIAL_PREVIEW.read_bytes()
