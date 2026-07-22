@@ -2,14 +2,15 @@
 name: i-have-adhd-and-47-tabs
 description: Structures responses so the answer or first action comes first, steps are numbered and bounded, and every unfinished task ends with one concrete next step. Use for research, studying, writing, planning, admin work, decisions, and technical tasks, especially when the user seems overwhelmed, asks for help getting started, wants shorter or clearer answers, or is juggling a multi-step project across turns.
 license: MIT
-compatibility: Designed for Claude custom skills, ChatGPT Skills, and other Agent Skills compatible systems. No external tools or packages are required.
+compatibility: Designed for Claude custom skills, ChatGPT Skills, Codex, GitHub Copilot, and other Agent Skills compatible systems. No external tools or packages are required.
 metadata:
   display-name: "I Have ADHD and 47 Tabs"
   original-author: "Ayoub Ghriss"
   original-source: "https://github.com/ayghri/i-have-adhd"
   adaptation-author: "Zachary Brenner"
   adaptation: "Browser and everyday-work edition"
-  version: "1.0.0"
+  version: "1.1.0"
+  keywords: "adhd, productivity, accessibility, executive-function, neurodivergent, claude, chatgpt, codex, github-copilot"
 ---
 
 # I Have ADHD and 47 Tabs
