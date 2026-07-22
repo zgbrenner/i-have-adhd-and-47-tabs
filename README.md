@@ -128,7 +128,7 @@ The most important adaptation is subtle: factual questions lead with the **answe
 4. Suppress tangents.
 5. Restate workflow state across turns.
 6. Use concrete time estimates when useful.
-7. Make completed work visible.
+7. Make progress and wins visible.
 8. Describe errors matter-of-factly.
 9. Keep lists short, grouped, and ranked.
 10. Remove preambles, recaps, and empty closers.
@@ -141,7 +141,9 @@ The full instructions live in [`i-have-adhd-and-47-tabs/SKILL.md`](i-have-adhd-a
 i-have-adhd-and-47-tabs/
 ├── i-have-adhd-and-47-tabs/      # Uploadable skill source
 │   ├── SKILL.md
-│   ├── agents/openai.yaml
+│   ├── README.md
+│   ├── LICENSE
+│   ├── NOTICE.md
 │   └── references/examples.md
 ├── chatgpt-custom-gpt/           # Fallback for Custom GPT users
 ├── dist/                         # Ready-to-upload ZIP
@@ -156,9 +158,9 @@ i-have-adhd-and-47-tabs/
 No third-party packages are required.
 
 ```bash
-python scripts/validate_skill.py
-python scripts/build_zip.py
-python -m unittest discover -s tests -v
+python3 scripts/validate_skill.py
+python3 scripts/build_zip.py
+python3 -m unittest discover -s tests -v
 ```
 
 Or use:
