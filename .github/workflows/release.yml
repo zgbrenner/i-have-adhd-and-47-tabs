@@ -42,26 +42,40 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "tag=v$version" >> "$GITHUB_OUTPUT"
 
-      - name: Create tag and GitHub release
+      - name: Publish tag and GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.version.outputs.tag }}
           VERSION: ${{ steps.version.outputs.version }}
         shell: bash
         run: |
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release $TAG already exists; nothing to do."
-            exit 0
+          release_state="$(gh release view "$TAG" --json isDraft --jq '.isDraft' 2>/dev/null || echo absent)"
+
+          if [[ "$release_state" == "true" ]]; then
+            echo "Replacing existing draft release $TAG."
+            gh release delete "$TAG" --yes --cleanup-tag
           fi
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "$TAG" -m "I Have ADHD and 47 Tabs $VERSION"
-          git push origin "$TAG"
+          if ! git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "$TAG" -m "I Have ADHD and 47 Tabs $VERSION"
+            git push origin "$TAG"
+          fi
 
-          gh release create "$TAG" \
-            dist/i-have-adhd-and-47-tabs.zip \
-            dist/SHA256SUMS \
-            --verify-tag \
-            --title "I Have ADHD and 47 Tabs $TAG" \
-            --notes-file "docs/releases/$VERSION.md"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              dist/i-have-adhd-and-47-tabs.zip \
+              dist/SHA256SUMS \
+              --clobber
+            gh release edit "$TAG" \
+              --title "I Have ADHD and 47 Tabs $TAG" \
+              --notes-file "docs/releases/$VERSION.md"
+          else
+            gh release create "$TAG" \
+              dist/i-have-adhd-and-47-tabs.zip \
+              dist/SHA256SUMS \
+              --verify-tag \
+              --title "I Have ADHD and 47 Tabs $TAG" \
+              --notes-file "docs/releases/$VERSION.md"
+          fi
