@@ -1,8 +1,19 @@
 # Publishing
 
-## Publish repository changes
+This repository intentionally uses no GitHub Actions or hosted CI. Validation, packaging, pushes, and releases run from a maintainer's computer.
 
-Install and authenticate GitHub CLI, then run:
+## One-time setup
+
+Install Python 3, Git, and GitHub CLI, then authenticate:
+
+```bash
+gh auth login
+make install-hooks
+```
+
+The optional Git hook runs `make check` before each push on that computer.
+
+## Publish repository changes
 
 ```bash
 ./scripts/publish_to_github.sh
@@ -12,13 +23,26 @@ The script validates the skill, rebuilds the distributable ZIP, runs tests, comm
 
 ## Publish a release
 
-Releases are automated from the `VERSION` file.
-
 1. Update `VERSION`, `i-have-adhd-and-47-tabs/SKILL.md`, `CITATION.cff`, `CHANGELOG.md`, and `docs/releases/<version>.md`.
 2. Run `make check`.
-3. Merge the change to `main`.
+3. Commit and push the changes to `main`.
+4. Run:
 
-A GitHub Actions workflow tags the merge commit, rebuilds the ZIP, generates `SHA256SUMS`, and publishes both as GitHub Release assets. It exits without changing anything when the release already exists.
+```bash
+make release
+```
+
+The local release script:
+
+- validates the version and release notes;
+- runs the complete repository test suite;
+- confirms the committed ZIP is current;
+- generates `dist/SHA256SUMS` locally;
+- verifies local `main` matches `origin/main`;
+- creates and pushes the annotated version tag when needed;
+- creates or updates the GitHub Release and its two assets.
+
+It uses the GitHub API through the authenticated `gh` command and does not start a GitHub Actions job.
 
 ## Manual validation
 
