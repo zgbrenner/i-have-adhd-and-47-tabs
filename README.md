@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Action-first AI for work, research, life, and every tab you forgot was open.</strong>
+  <strong>An action-first AI skill for work, research, life, and every tab you forgot was open.</strong>
 </p>
 
 <p align="center">
