@@ -1,5 +1,5 @@
 <p align="center">
-  <strong style="font-size: 2rem;">I Have ADHD *and 47 Tabs*</strong>
+  <strong style="font-size: 2rem;">I Have ADHD and 47 Tabs</strong>
 </p>
 
 <p align="center">
