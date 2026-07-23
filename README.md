@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>A skill for Claude, ChatGPT, Codex, and Copilot. For work, research, and life.</strong>
+  <strong>An action-first skill for Claude, ChatGPT, Codex, and Copilot. For work, research, and life.</strong>
 </p>
 
 <p align="center">
