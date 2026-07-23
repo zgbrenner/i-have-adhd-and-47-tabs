@@ -3,9 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>An action-first skill for Claude, ChatGPT, Codex, and Copilot. 
-    
-  Ensure your AI answers first, provides fewer superfluous options, and gives you one clear next step. For work, research, life, and every tab you forgot was open.</strong>
+  <strong>An action-first skill for Claude, ChatGPT, Codex, and Copilot. For work, research, life, and every tab you forgot was open.</strong>
 </p>
 
 <p align="center">
@@ -16,7 +14,7 @@
 </p>
 
 <p align="center">
-  <em>Your brain has enough tabs open. Your AI does not need to add twelve more.</em>
+  <em>Your brain has enough tabs open. Your AI does not need to add twelve more. Ensure your AI answers first, provides fewer superfluous options, and gives you one clear next step.</em>
 </p>
 
 ---
