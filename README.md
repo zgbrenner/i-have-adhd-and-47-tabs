@@ -1,25 +1,22 @@
-<p align="center">
-  <strong style="font-size: 2rem;">I Have ADHD and 47 Tabs</strong>
-</p>
+# I Have ADHD and 47 Tabs
 
-<p align="center">
-  <strong>An action-first skill for Claude, ChatGPT, Codex, and Copilot. For work, research, and life.</strong>
-</p>
+<strong>An action-first skill for Claude, ChatGPT, Codex, and Copilot. For work, research, and life.</strong>
 
-<p align="center">
+> **Your brain has enough tabs open. Your AI does not need to add twelve more.** 
+
   <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zgbrenner/i-have-adhd-and-47-tabs?display_name=tag"></a>
   <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases/latest/download/i-have-adhd-and-47-tabs.zip"><img alt="Download skill" src="https://img.shields.io/badge/download-skill.zip-6f42c1.svg"></a>
   <a href="https://github.com/zgbrenner/i-have-adhd-and-47-tabs/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/zgbrenner/i-have-adhd-and-47-tabs/total?label=downloads"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2ea44f.svg"></a>
-</p>
 
-<p align="center">
-  <em>Your brain has enough tabs open. Your AI does not need to add twelve more. Ensure your AI answers first, provides fewer superfluous options, and gives you one clear next step.</em>
-</p>
+> Ensure that your preferred AI: 
+> - Answers first;
+> - Provides fewer wasteful options; and
+> - Gives you one clear next step.
 
 ---
 
-## The two-minute version
+## The Two-Minute Version
 
 Most AI answers are technically correct and operationally useless. They begin with a preamble, hide the actual answer in paragraph four, hand you eleven equally weighted options, and end with “hope this helps.”
 
@@ -33,7 +30,7 @@ Most AI answers are technically correct and operationally useless. They begin wi
 
 It works for **research, studying, writing, planning, email, administrative work, life logistics, and technical tasks**. It is a response-formatting skill, not a medical tool, and no diagnosis is required.
 
-## Before and after
+## Before & After
 
 <table>
 <tr>
@@ -127,7 +124,7 @@ This is a browser-first, general-purpose adaptation of **[Ayoub Ghriss’s origi
 
 The key adaptation is simple: factual questions lead with the **answer**, while tasks lead with the **next action**.
 
-## The rules
+## The Rules
 
 1. Lead with the answer or next action.
 2. Number multi-step tasks.
